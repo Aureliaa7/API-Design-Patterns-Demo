@@ -14,6 +14,8 @@ namespace API_DesignPatterns.Core.DTOs
 
         public string Description { get; set; }
 
+        public string AuthorNames { get; set; }
+
         public bool IsDeleted { get; set; }
     }
 }

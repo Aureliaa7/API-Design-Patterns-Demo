@@ -3,8 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 using API_DesignPatterns.Infrastructure.DatabaseContext;
 using API_DesignPatterns.Infrastructure.Repositories;
 using API_DesignPatterns.Core.Interfaces.Repositories;
-using API_DesignPatterns.Core.DomainServices;
 using API_DesignPatterns.Core.Interfaces.DomainServices;
+using API_DesignPatterns.Core.DomainServices;
+using API_DesignPatterns.API.Filters;
+using API_DesignPatterns.Core.DomainEntities;
 
 namespace API_DesignPatterns.API
 {
@@ -25,6 +27,25 @@ namespace API_DesignPatterns.API
 
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IBookService, BookService>();
+        }
+
+        public static void ConfigureGlobalFilters(this IServiceCollection services)
+        {
+            services.AddMvc(options => {
+                options.Filters.Add(new CustomExceptionFilter());
+            });
+        }
+
+        public static void RegisterFilters(this IServiceCollection services)
+        {
+            services.AddScoped<ValidateEntityExistenceFilter<Author>>();
+            services.AddScoped<ValidateEntityExistenceFilter<Book>>();
+
+            services.AddScoped<EntitySoftDeletedFilter<Author>>();
+            services.AddScoped<EntitySoftDeletedFilter<Book>>();
+
+            services.AddScoped<EntityNotSoftDeletedFilter<Author>>();
+            services.AddScoped<EntityNotSoftDeletedFilter<Book>>();
         }
     }
 }

@@ -2,6 +2,7 @@
 using API_DesignPatterns.Infrastructure.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -47,6 +48,15 @@ namespace API_DesignPatterns.Infrastructure.Repositories
             return Task.FromResult(entity);
         }
 
+        public Task<IEnumerable<T>> UpdateRangeAsync(IEnumerable<T> entities)
+        {
+            foreach (var entity in entities)
+            {
+                Context.Set<T>().Update(entity);
+            }
+            return Task.FromResult(entities);
+        }
+
         public Task<bool> ExistsAsync(Expression<Func<T, bool>> filter)
         {
             var entities = Context.Set<T>().Where(filter);
@@ -59,7 +69,7 @@ namespace API_DesignPatterns.Infrastructure.Repositories
             return Task.FromResult(Context.Set<T>().Find(id));
         }
 
-        public Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, string includeProperties = null)
+        public Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null)
         {
             var entities = Context.Set<T>().AsNoTracking();
 
@@ -69,6 +79,11 @@ namespace API_DesignPatterns.Infrastructure.Repositories
             }
 
             return Task.FromResult(entities);
+        }
+
+        public Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter)
+        {
+            return Task.FromResult(Context.Set<T>().FirstOrDefault(filter)); 
         }
     }
 }

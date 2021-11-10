@@ -1,8 +1,9 @@
-﻿using System;
+﻿using API_DesignPatterns.Core.Interfaces;
+using System;
 
 namespace API_DesignPatterns.Core.DomainEntities
 {
-    public class AuthorBook
+    public class AuthorBook : IEntity
     {
         public Guid Id { get; set; }
 

@@ -1,3 +1,6 @@
+using API_DesignPatterns.API.Filters;
+using API_DesignPatterns.Core.DomainEntities;
+using API_DesignPatterns.Core.Interfaces;
 using API_DesignPatterns.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,6 +26,10 @@ namespace API_DesignPatterns.API
             services.RegisterDbContext(Configuration.GetConnectionString("DefaultConnection"));
 
             services.RegisterServices();
+
+            services.ConfigureGlobalFilters();
+
+            services.RegisterFilters();
 
             services.AddAutoMapper(typeof(MappingConfigurations));
         }

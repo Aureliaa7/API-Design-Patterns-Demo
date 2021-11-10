@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -15,8 +16,12 @@ namespace API_DesignPatterns.Core.Interfaces.Repositories
 
         Task<T> UpdateAsync(T entity);
 
+        Task<IEnumerable<T>> UpdateRangeAsync(IEnumerable<T> entities);
+
         Task<bool> ExistsAsync(Expression<Func<T, bool>> filter);
 
-        Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, string includeProperties = null);
+        Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null);
+
+        Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter);
     }
 }

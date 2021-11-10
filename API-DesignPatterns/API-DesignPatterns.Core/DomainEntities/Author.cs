@@ -1,8 +1,9 @@
-﻿using System;
+﻿using API_DesignPatterns.Core.Interfaces;
+using System;
 
 namespace API_DesignPatterns.Core.DomainEntities
 {
-    public class Author
+    public class Author : IEntity
     {
         public Guid Id { get; set; }
 
@@ -10,7 +11,6 @@ namespace API_DesignPatterns.Core.DomainEntities
 
         public string LastName { get; set; }
 
-        // field needed to implement soft deletion
         public bool IsDeleted { get; set; }
     }
 }
