@@ -12,6 +12,8 @@ namespace API_DesignPatterns.Core.Interfaces.Repositories
 
         Task<T> AddAsync(T entity);
 
+        Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities);
+
         Task<T> RemoveAsync(Guid id);
 
         Task<T> UpdateAsync(T entity);

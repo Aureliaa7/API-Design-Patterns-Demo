@@ -41,11 +41,11 @@ namespace API_DesignPatterns.API
             services.AddScoped<ValidateEntityExistenceFilter<Author>>();
             services.AddScoped<ValidateEntityExistenceFilter<Book>>();
 
-            services.AddScoped<EntitySoftDeletedFilter<Author>>();
-            services.AddScoped<EntitySoftDeletedFilter<Book>>();
+            services.AddScoped<ValidateNotSoftDeletedEntityFilter<Author>>();
+            services.AddScoped<ValidateNotSoftDeletedEntityFilter<Book>>();
 
-            services.AddScoped<EntityNotSoftDeletedFilter<Author>>();
-            services.AddScoped<EntityNotSoftDeletedFilter<Book>>();
+            services.AddScoped<ValidateSoftDeletedEntityFilter<Author>>();
+            services.AddScoped<ValidateSoftDeletedEntityFilter<Book>>();
         }
     }
 }

@@ -24,6 +24,12 @@ namespace API_DesignPatterns.Infrastructure.Repositories
             return Task.FromResult(entity);
         }
 
+        public Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities)
+        {
+            Context.Set<T>().AddRange(entities);
+            return Task.FromResult(entities);
+        }
+
         public async Task<T> GetAsync(Guid id)
         {
             return await Context.Set<T>().FindAsync(id);
@@ -50,10 +56,7 @@ namespace API_DesignPatterns.Infrastructure.Repositories
 
         public Task<IEnumerable<T>> UpdateRangeAsync(IEnumerable<T> entities)
         {
-            foreach (var entity in entities)
-            {
-                Context.Set<T>().Update(entity);
-            }
+            Context.Set<T>().UpdateRange(entities);
             return Task.FromResult(entities);
         }
 

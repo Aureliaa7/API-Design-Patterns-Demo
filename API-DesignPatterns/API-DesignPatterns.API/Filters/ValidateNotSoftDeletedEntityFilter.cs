@@ -8,11 +8,11 @@ using System.Linq;
 
 namespace API_DesignPatterns.API.Filters
 {
-    public class EntitySoftDeletedFilter<T> : IActionFilter where T: class, IEntity
+    public class ValidateNotSoftDeletedEntityFilter<T> : IActionFilter where T: class, IEntity
     {
         private readonly AppDbContext dbContext;
 
-        public EntitySoftDeletedFilter(AppDbContext dbContext)
+        public ValidateNotSoftDeletedEntityFilter(AppDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

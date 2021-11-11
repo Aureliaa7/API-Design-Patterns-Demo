@@ -25,7 +25,6 @@ namespace API_DesignPatterns.API.Controllers
         public async Task<IActionResult> Create(AddAuthorDto authorDto)
         {
             var addedAuthor = await authorService.AddAsync(mapper.Map<Author>(authorDto), authorDto.ValidateOnly);
-
             return Ok(mapper.Map<AuthorDto>(addedAuthor));
         }
 
@@ -35,11 +34,10 @@ namespace API_DesignPatterns.API.Controllers
         [HttpPut]
         [Route("{id}/mark-as-deleted")]
         [ServiceFilter(typeof(ValidateEntityExistenceFilter<Author>))]
-        [ServiceFilter(typeof(EntitySoftDeletedFilter<Author>))]
+        [ServiceFilter(typeof(ValidateNotSoftDeletedEntityFilter<Author>))]
         public async Task<IActionResult> MarkAsDeleted([FromRoute] Guid id, [FromQuery] bool validateOnly)
         {
             await authorService.MarkAsDeletedAsync(id, validateOnly);
-
             return NoContent();
         }
 
@@ -49,18 +47,16 @@ namespace API_DesignPatterns.API.Controllers
         public async Task<IActionResult> Delete([FromRoute] Guid id, [FromQuery] bool validateOnly)
         {
             await authorService.DeleteAsync(id, validateOnly);
-
             return NoContent();
         }
 
         [HttpPut]
         [Route("{id}/restore")]
         [ServiceFilter(typeof(ValidateEntityExistenceFilter<Author>))]
-        [ServiceFilter(typeof(EntityNotSoftDeletedFilter<Author>))]
+        [ServiceFilter(typeof(ValidateSoftDeletedEntityFilter<Author>))]
         public async Task<IActionResult> Restore([FromRoute] Guid id, [FromQuery] bool validateOnly)
         {
             var restoredAuthor = await authorService.RestoreAsync(id, validateOnly);
-
             return Ok(mapper.Map<AuthorDto>(restoredAuthor));
         }
 
@@ -68,17 +64,16 @@ namespace API_DesignPatterns.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var authors = await authorService.GetAllAsync();
-
             return Ok(mapper.Map<IEnumerable<AuthorDto>>(authors));
         }
 
         [HttpGet]
         [Route("{id}")]
         [ServiceFilter(typeof(ValidateEntityExistenceFilter<Author>))]
+        [ServiceFilter(typeof(ValidateNotSoftDeletedEntityFilter<Author>))]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var author = await authorService.GetByIdAsync(id);
-
             return Ok(mapper.Map<AuthorDto>(author));
         }
     }

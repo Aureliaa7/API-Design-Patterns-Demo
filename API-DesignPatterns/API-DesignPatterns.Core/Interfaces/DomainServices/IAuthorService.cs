@@ -41,6 +41,7 @@ namespace API_DesignPatterns.Core.Interfaces.DomainServices
         /// Expunges an author by id
         /// </summary>
         /// <param name="id">The author id</param>
+        /// <param name="validateOnly">Flag used for request validation</param>
         /// <returns></returns>
         Task DeleteAsync(Guid id, bool validateOnly = false);
 

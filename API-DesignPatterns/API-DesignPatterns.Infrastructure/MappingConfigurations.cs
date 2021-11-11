@@ -1,5 +1,6 @@
 ﻿using API_DesignPatterns.Core.DomainEntities;
 using API_DesignPatterns.Core.DTOs;
+using API_DesignPatterns.Core.Models;
 using AutoMapper;
 
 namespace API_DesignPatterns.Infrastructure
@@ -12,7 +13,8 @@ namespace API_DesignPatterns.Infrastructure
             CreateMap<AddAuthorDto, Author>();
 
             CreateMap<Book, BookDto>();
-            CreateMap<AddBookDto, Book>();
+            CreateMap<AddBookDto, AddBookModel>();
+            CreateMap<BookModel, BookDto>();
         }
     }
 }

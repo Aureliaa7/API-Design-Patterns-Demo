@@ -39,19 +39,7 @@ namespace API_DesignPatterns.Core.DomainServices
 
         public async Task MarkAsDeletedAsync(Guid id, bool validateOnly = false)
         {
-            var author = await unitOfWork.AuthorRepository.GetByIdAsync(id);
-            author.IsDeleted = true;
-            await unitOfWork.AuthorRepository.UpdateAsync(author);
-
-            // also "delete" all the related entities
-            var books = (await unitOfWork.AuthorBookRepository.GetAllAsync(ab => ab.AuthorId == id))
-                .Select(ab => ab.Book).ToList();
-            books.ForEach(b => b.IsDeleted = true);
-            await unitOfWork.BookRepository.UpdateRangeAsync(books);
-
-            var authorBooks = (await unitOfWork.AuthorBookRepository.GetAllAsync(ab => ab.AuthorId == id)).ToList();
-            authorBooks.ForEach(ab => ab.IsDeleted = true);
-            await unitOfWork.AuthorBookRepository.UpdateRangeAsync(authorBooks);
+            await ChangeIsDeletedStatusAsync(id, true);
 
             if (!validateOnly)
             {
@@ -83,19 +71,7 @@ namespace API_DesignPatterns.Core.DomainServices
 
         public async Task<Author> RestoreAsync(Guid id, bool validateOnly = false)
         {
-            var author = await unitOfWork.AuthorRepository.GetByIdAsync(id);
-            author.IsDeleted = false;
-            await unitOfWork.AuthorRepository.UpdateAsync(author);
-
-            // also restore all the related entities
-            var books = (await unitOfWork.AuthorBookRepository.GetAllAsync(ab => ab.AuthorId == id))
-                .Select(ab => ab.Book).ToList();
-            books.ForEach(b => b.IsDeleted = false);
-            await unitOfWork.BookRepository.UpdateRangeAsync(books);
-
-            var authorBooks = (await unitOfWork.AuthorBookRepository.GetAllAsync(ab => ab.AuthorId == id)).ToList();
-            authorBooks.ForEach(ab => ab.IsDeleted = false);
-            await unitOfWork.AuthorBookRepository.UpdateRangeAsync(authorBooks);
+            var author = await ChangeIsDeletedStatusAsync(id, false);
 
             if (!validateOnly)
             {
@@ -108,6 +84,25 @@ namespace API_DesignPatterns.Core.DomainServices
         public async Task<IEnumerable<Author>> GetAllAsync()
         {
             return (await unitOfWork.AuthorRepository.GetAllAsync(a => !a.IsDeleted)).ToList();
+        }
+
+        private async Task<Author> ChangeIsDeletedStatusAsync(Guid id, bool isDeleted)
+        {
+            var author = await unitOfWork.AuthorRepository.GetByIdAsync(id);
+            author.IsDeleted = isDeleted;
+            await unitOfWork.AuthorRepository.UpdateAsync(author);
+
+            // also, "delete"/restore all the related entities
+            var books = (await unitOfWork.AuthorBookRepository.GetAllAsync(ab => ab.AuthorId == id))
+                .Select(ab => ab.Book).ToList();
+            books.ForEach(b => b.IsDeleted = isDeleted);
+            await unitOfWork.BookRepository.UpdateRangeAsync(books);
+
+            var authorBooks = (await unitOfWork.AuthorBookRepository.GetAllAsync(ab => ab.AuthorId == id)).ToList();
+            authorBooks.ForEach(ab => ab.IsDeleted = isDeleted);
+            await unitOfWork.AuthorBookRepository.UpdateRangeAsync(authorBooks);
+
+            return author;
         }
     }
 }
