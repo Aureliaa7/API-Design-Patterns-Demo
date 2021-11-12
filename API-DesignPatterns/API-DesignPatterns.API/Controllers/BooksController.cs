@@ -4,6 +4,7 @@ using API_DesignPatterns.Core.DTOs;
 using API_DesignPatterns.Core.Interfaces.DomainServices;
 using API_DesignPatterns.Core.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace API_DesignPatterns.API.Controllers
             this.mapper = mapper;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(AddBookDto bookDto)
         {
@@ -29,6 +31,7 @@ namespace API_DesignPatterns.API.Controllers
             return Ok(addedBook);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("{id}")]
         [ServiceFilter(typeof(ValidateEntityExistenceFilter<Book>))]
@@ -55,6 +58,7 @@ namespace API_DesignPatterns.API.Controllers
             return Ok(mapper.Map<BookDto>(bookModel));
         }
 
+        [Authorize]
         [HttpPut]
         [Route("{id}/mark-as-deleted")]
         [ServiceFilter(typeof(ValidateEntityExistenceFilter<Book>))]
@@ -65,6 +69,7 @@ namespace API_DesignPatterns.API.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut]
         [Route("{id}/restore")]
         [ServiceFilter(typeof(ValidateEntityExistenceFilter<Book>))]

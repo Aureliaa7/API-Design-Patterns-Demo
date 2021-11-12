@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>API_DesignPatterns.API</RootNamespace>
+    <UserSecretsId>c9f1a2a3-7558-419c-a76a-06415418f03b</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

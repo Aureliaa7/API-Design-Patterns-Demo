@@ -1,6 +1,3 @@
-using API_DesignPatterns.API.Filters;
-using API_DesignPatterns.Core.DomainEntities;
-using API_DesignPatterns.Core.Interfaces;
 using API_DesignPatterns.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,6 +22,8 @@ namespace API_DesignPatterns.API
          
             services.RegisterDbContext(Configuration.GetConnectionString("DefaultConnection"));
 
+            services.ConfigureIdentity();
+
             services.RegisterServices();
 
             services.ConfigureGlobalFilters();
@@ -32,6 +31,8 @@ namespace API_DesignPatterns.API
             services.RegisterFilters();
 
             services.AddAutoMapper(typeof(MappingConfigurations));
+
+            services.ConfigureJWTAuthentication(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -44,6 +45,8 @@ namespace API_DesignPatterns.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

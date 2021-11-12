@@ -1,9 +1,12 @@
 ﻿using API_DesignPatterns.Core.DomainEntities;
+using API_DesignPatterns.Infrastructure.IdentityEntities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace API_DesignPatterns.Infrastructure.DatabaseContext
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 

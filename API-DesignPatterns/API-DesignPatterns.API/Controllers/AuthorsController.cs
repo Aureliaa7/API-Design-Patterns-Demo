@@ -3,6 +3,7 @@ using API_DesignPatterns.Core.DomainEntities;
 using API_DesignPatterns.Core.DTOs;
 using API_DesignPatterns.Core.Interfaces.DomainServices;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace API_DesignPatterns.API.Controllers
             this.mapper = mapper;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(AddAuthorDto authorDto)
         {
@@ -31,6 +33,7 @@ namespace API_DesignPatterns.API.Controllers
         // Note: Since the user should not be 'forced' to use request validation, let the
         //      validateOnly value be taken from query params if it is present there,
         //      such that request validation can be applied only if the user wants to.
+        [Authorize]
         [HttpPut]
         [Route("{id}/mark-as-deleted")]
         [ServiceFilter(typeof(ValidateEntityExistenceFilter<Author>))]
@@ -41,6 +44,7 @@ namespace API_DesignPatterns.API.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("{id}")]
         [ServiceFilter(typeof(ValidateEntityExistenceFilter<Author>))]
@@ -50,6 +54,7 @@ namespace API_DesignPatterns.API.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut]
         [Route("{id}/restore")]
         [ServiceFilter(typeof(ValidateEntityExistenceFilter<Author>))]

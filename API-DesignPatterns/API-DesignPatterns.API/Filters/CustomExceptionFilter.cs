@@ -26,6 +26,22 @@ namespace API_DesignPatterns.API.Filters
                     context.Exception.Message
                 });
             }
+            else if (context.Exception is InvalidCredentialsException)
+            {
+                context.Result = new UnauthorizedObjectResult(new
+                {
+                    StatusCode = StatusCodes.Unauthorized,
+                    context.Exception.Message
+                });
+            }
+            else if (context.Exception is FailedRegistrationException)
+            {
+                context.Result = new BadRequestObjectResult(new
+                {
+                    StatusCode = StatusCodes.BadRequest,
+                    context.Exception.Message
+                });
+            }
         }
     }
 }

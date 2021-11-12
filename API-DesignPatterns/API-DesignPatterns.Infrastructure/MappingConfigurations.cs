@@ -15,6 +15,9 @@ namespace API_DesignPatterns.Infrastructure
             CreateMap<Book, BookDto>();
             CreateMap<AddBookDto, AddBookModel>();
             CreateMap<BookModel, BookDto>();
+
+            CreateMap<LoginDto, LoginModel>();
+            CreateMap<RegisterDto, RegisterModel>();
         }
     }
 }
