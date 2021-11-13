@@ -2,7 +2,4 @@
 * JJ Geewax, API Design Patterns
 * Action filters in .NET: https://code-maze.com/action-filters-aspnetcore/
 * ASP.NET Core HttpActionResults extension methods: https://github.com/ivaylokenov/AspNetCore.Mvc.HttpActionResults
-
-------------------------------------------------
-Gave up on ASP.NET Core HttpActionResults package because there were some conflicts between this package and 
-Microsoft.AspNetCore.Mvc and created a custom PreconditionFailedResult (which does not exist in Microsoft.AspNetCore.Mvc).
+* Authentication: https://code-maze.com/authentication-aspnetcore-jwt-1/
