@@ -50,7 +50,7 @@ namespace API_DesignPatterns.Core.DomainServices
         public async Task<Author> GetByIdAsync(Guid id)
         {
             var author = await unitOfWork.AuthorRepository
-                .GetFirstOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
+                .GetFirstOrDefaultAsync(a => a.Id == id);
 
             if(author == null)
             {
